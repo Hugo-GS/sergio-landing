@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sergio Producciones | Producción Audiovisual de Impacto</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&family=Open+Sans:wght@400;600&display=swap"
+    rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: "#D4AF37", // Un dorado elegante para acentos
+              dark: "#0a0a0a",
+              gray: "#1f1f1f",
+              light: "#f3f4f6",
+            },
+          },
+          fontFamily: {
+            sans: ["Open Sans", "sans-serif"],
+            heading: ["Montserrat", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    /* Custom Styles specifically for video background and animations */
+    .video-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+      opacity: 0.4;
+    }
+
+    .glass-card {
+      background: rgba(31, 31, 31, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .fade-in-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+      will-change: opacity, visibility;
+    }
+
+    .fade-in-section.is-visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* Card effect styles */
+    .service-card {
+      position: relative;
+      background-color: #1f1f1f;
+      border-radius: 25px;
+      padding: 32px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .service-card::before {
+      content: "";
+      width: 99%;
+      height: 99%;
+      background: rgba(212, 175, 55, 0.15);
+      position: absolute;
+      z-index: -1;
+      top: 1px;
+      left: 1px;
+      border-radius: 25px;
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover::before {
+      transform: rotate(5deg);
+    }
+
+    .service-card__icon {
+      transition: all 0.3s ease;
+      transform: rotate(-15deg);
+    }
+
+    .service-card:hover .service-card__icon {
+      transform: rotate(0deg) scale(1.1);
+    }
+
+    /* Phone input styles */
+    .phone-input-container {
+      display: flex;
+      gap: 0;
+    }
+
+    .country-select {
+      background-color: rgba(10, 10, 10, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: none;
+      border-radius: 0.5rem 0 0 0.5rem;
+      padding: 0.75rem 0.5rem;
+      color: white;
+      font-size: 1.125rem;
+      cursor: pointer;
+      transition: border-color 0.3s;
+      outline: none;
+      min-width: 80px;
+    }
+
+    .phone-input {
+      flex: 1;
+      background-color: rgba(10, 10, 10, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 0 0.5rem 0.5rem 0;
+      padding: 0.75rem 1rem;
+      color: white;
+      transition: border-color 0.3s;
+      outline: none;
+    }
+
+    /* Cuando cualquier elemento dentro del contenedor recibe focus, ambos se iluminan */
+    .phone-input-container:focus-within .country-select {
+      border-color: #d4af37;
+    }
+
+    .phone-input-container:focus-within .phone-input {
+      border-color: #d4af37;
+    }
+
+    /* Custom Scrollbar Styles */
+    /* Para navegadores Webkit (Chrome, Safari, Edge) */
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #0a0a0a;
+      border-left: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #d4af37 0%, #b8941f 100%);
+      border-radius: 6px;
+      border: 2px solid #0a0a0a;
+      transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #e0c050 0%, #d4af37 100%);
+      box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+      background: #d4af37;
+    }
+
+    /* Para Firefox */
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: #d4af37 #0a0a0a;
+    }
+
+    /* Smooth scroll behavior */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<body class="bg-brand-dark text-gray-100 font-sans antialiased selection:bg-brand-gold selection:text-brand-dark">
+  <!-- 10. Footer / Navigation (Combined for UX: Sticky Nav) -->
+  <nav class="fixed w-full z-50 bg-brand-dark/90 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-20 items-center">
+        <div class="flex-shrink-0 flex items-center">
+          <!-- Logo simulado -->
+          <a href="#" class="font-heading font-bold text-2xl tracking-tighter text-white">
+            SERGIO<span class="text-brand-gold">.STUDIO</span>
+          </a>
+        </div>
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#servicios"
+            class="text-gray-300 hover:text-brand-gold transition-colors text-sm font-semibold uppercase tracking-wider">Servicios</a>
+          <a href="#portfolio"
+            class="text-gray-300 hover:text-brand-gold transition-colors text-sm font-semibold uppercase tracking-wider">Portfolio</a>
+          <a href="#proceso"
+            class="text-gray-300 hover:text-brand-gold transition-colors text-sm font-semibold uppercase tracking-wider">Proceso</a>
+          <a href="#contacto"
+            class="bg-brand-gold text-brand-dark px-6 py-2.5 rounded-full font-bold hover:bg-white transition-all transform hover:scale-105 text-sm">Hablemos</a>
+        </div>
+        <!-- Mobile Menu Button -->
+        <div class="md:hidden flex items-center">
+          <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-gray border-t border-white/10">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <a href="#servicios"
+          class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-brand-gold hover:bg-black/20">Servicios</a>
+        <a href="#portfolio"
+          class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-brand-gold hover:bg-black/20">Portfolio</a>
+        <a href="#proceso"
+          class="block px-3 py-2 rounded-md text-base font-medium text-white hover:text-brand-gold hover:bg-black/20">Proceso</a>
+        <a href="#contacto" class="block px-3 py-2 rounded-md text-base font-medium text-brand-gold font-bold">Solicitar
+          Proyecto</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 1. Portada (Hero Section) -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 bg-black">
+      <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2070&auto=format&fit=crop"
+        alt="Background Texture" class="w-full h-full object-cover opacity-40" />
+      <!-- Overlay Gradient -->
+      <div class="absolute inset-0 bg-gradient-to-b from-brand-dark/30 via-brand-dark/60 to-brand-dark"></div>
+    </div>
+
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto fade-in-section">
+      <h1 class="font-heading text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+        Producción y edición <br />
+        audiovisual con
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-gold to-yellow-200">impacto real</span>
+      </h1>
+      <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto font-light">
+        Contenido profesional, personalizado y supervisado en cada etapa para
+        marcas que buscan destacar.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#contacto"
+          class="px-8 py-4 bg-brand-gold text-brand-dark font-bold rounded-full hover:bg-white hover:shadow-[0_0_20px_rgba(212,175,55,0.5)] transition-all duration-300 text-lg">
+          Solicitar Proyecto
+        </a>
+        <a href="#portfolio"
+          class="px-8 py-4 border border-white/30 bg-white/5 backdrop-blur-sm text-white font-bold rounded-full hover:bg-white/10 transition-all duration-300 text-lg flex items-center justify-center gap-2">
+          <i class="fas fa-play text-xs"></i> Ver Reel
+        </a>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-white/50">
+      <i class="fas fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- 2. Servicios -->
+  <section id="servicios" class="py-24 bg-brand-dark relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 fade-in-section">
+        <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+          Soluciones Visuales Integrales
+        </h2>
+        <div class="w-20 h-1 bg-brand-gold mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Servicio 1: Edición -->
+        <div class="service-card fade-in-section group">
+          <div
+            class="service-card__icon w-14 h-14 bg-brand-dark rounded-lg flex items-center justify-center mb-6 group-hover:bg-brand-gold transition-colors duration-300">
+            <i class="fas fa-cut text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <div class="mb-4">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider">Edición</span>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-4">
+            Edición Profesional
+          </h3>
+          <ul class="space-y-3 text-gray-400">
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Spots
+              publicitarios
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Videos
+              corporativos
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Reels &
+              TikToks
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Formatos
+              verticales
+            </li>
+          </ul>
+        </div>
+
+        <!-- Servicio 2: Producción -->
+        <div class="service-card transform md:-translate-y-4 fade-in-section group relative"
+          style="border: 1px solid rgba(212, 175, 55, 0.3)">
+          <div class="absolute top-0 right-0 bg-brand-gold text-brand-dark text-xs font-bold px-3 py-1 rounded-bl-lg">
+            Más Solicitado
+          </div>
+          <div
+            class="service-card__icon w-14 h-14 bg-brand-dark rounded-lg flex items-center justify-center mb-6 mt-4 group-hover:bg-brand-gold transition-colors duration-300">
+            <i class="fas fa-video text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <div class="mb-4">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider">Producción</span>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-4">
+            Producción Audiovisual
+          </h3>
+          <ul class="space-y-3 text-gray-400">
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Concepto
+              creativo
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Guion
+              técnico y literario
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Dirección y
+              rodaje
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Logística
+              completa
+            </li>
+          </ul>
+        </div>
+
+        <!-- Servicio 3: Postproducción -->
+        <div class="service-card fade-in-section group">
+          <div
+            class="service-card__icon w-14 h-14 bg-brand-dark rounded-lg flex items-center justify-center mb-6 group-hover:bg-brand-gold transition-colors duration-300">
+            <i class="fas fa-magic text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <div class="mb-4">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider">Post</span>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-4">
+            Postproducción & FX
+          </h3>
+          <ul class="space-y-3 text-gray-400">
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Color
+              Grading
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Diseño
+              sonoro
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i> Motion
+              Graphics
+            </li>
+            <li class="flex items-center gap-2">
+              <i class="fas fa-check text-brand-gold text-xs"></i>
+              Masterización final
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Servicios Adicionales -->
+      <div class="mt-12 text-center fade-in-section">
+        <p class="text-gray-400 text-sm">
+          También disponible:
+          <span class="text-white">Cobertura de eventos • Consultoría audiovisual • Contenido para
+            redes</span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Portfolio -->
+  <section id="portfolio" class="py-24 bg-brand-gray relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-12 fade-in-section">
+        <div>
+          <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-2">
+            Proyectos Destacados
+          </h2>
+          <p class="text-gray-400">
+            Una selección de mis trabajos recientes.
+          </p>
+        </div>
+        <a href="#"
+          class="text-brand-gold font-bold hover:text-white transition-colors mt-4 md:mt-0 flex items-center gap-2">
+          Ver portfolio completo <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <!-- Grid adaptado para formato vertical (9:16) -->
+      <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Proyecto 1 - Video local con autoplay -->
+        <article id="project-0" data-project="0"
+          class="portfolio-card group relative overflow-hidden rounded-2xl aspect-[9/16] cursor-pointer fade-in-section border border-white/5 hover:border-brand-gold/30 transition-all duration-300">
+          <video id="video-0" muted loop playsinline
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 project-video">
+            <source src="/static/videos/video-working-1" type="video/quicktime" />
+            <source src="/static/videos/video-working-1" type="video/mp4" />
+            <!-- Fallback a imagen si el video no carga -->
+            <img src="/static/images/img-working-1.png" alt="Proyecto 1" class="w-full h-full object-cover" />
+          </video>
+          <div
+            class="project-overlay absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider mb-1">Reel Social Media</span>
+            <h3 class="text-lg font-bold text-white mb-2">
+              Producción Creativa
+            </h3>
+            <p class="text-gray-300 text-sm mb-3 line-clamp-2">
+              Contenido optimizado para Instagram y TikTok con edición dinámica.
+            </p>
+            <button
+              class="text-white text-xs font-bold border-b border-brand-gold w-max pb-1 hover:text-brand-gold transition-colors">
+              Ver Proyecto
+            </button>
+          </div>
+        </article>
+
+        <!-- Proyecto 2 -->
+        <article id="project-1" data-project="1"
+          class="portfolio-card group relative overflow-hidden rounded-2xl aspect-[9/16] cursor-pointer fade-in-section border border-white/5 hover:border-brand-gold/30 transition-all duration-300">
+          <img src="/static/images/img-working-1.png" alt="Proyecto 2"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div
+            class="project-overlay absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider mb-1">Spot Publicitario</span>
+            <h3 class="text-lg font-bold text-white mb-2">Energía Digital</h3>
+            <p class="text-gray-300 text-sm mb-3 line-clamp-2">
+              Video vertical para campaña publicitaria en redes sociales.
+            </p>
+            <button
+              class="text-white text-xs font-bold border-b border-brand-gold w-max pb-1 hover:text-brand-gold transition-colors">
+              Ver Proyecto
+            </button>
+          </div>
+        </article>
+
+        <!-- Proyecto 3 -->
+        <article id="project-2" data-project="2"
+          class="portfolio-card group relative overflow-hidden rounded-2xl aspect-[9/16] cursor-pointer fade-in-section border border-white/5 hover:border-brand-gold/30 transition-all duration-300">
+          <video id="video-2" muted loop playsinline
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 project-video">
+            <source src="/static/videos/video-working-2.mp4" type="video/quicktime" />
+            <source src="/static/videos/video-working-2.mp4" type="video/mp4" />
+            <!-- Fallback a imagen si el video no carga -->
+            <img src="/static/images/img-working-2.png" alt="Proyecto 1" class="w-full h-full object-cover" />
+          </video>
+          <div
+            class="project-overlay absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider mb-1">TikTok</span>
+            <h3 class="text-lg font-bold text-white mb-2">
+              Campaña Viral
+            </h3>
+            <p class="text-gray-300 text-sm mb-3 line-clamp-2">
+              Serie de videos cortos con motion graphics y efectos dinámicos.
+            </p>
+            <button
+              class="text-white text-xs font-bold border-b border-brand-gold w-max pb-1 hover:text-brand-gold transition-colors">
+              Ver Proyecto
+            </button>
+          </div>
+        </article>
+
+        <!-- Proyecto 4 -->
+        <article id="project-3" data-project="3"
+          class="portfolio-card group relative overflow-hidden rounded-2xl aspect-[9/16] cursor-pointer fade-in-section border border-white/5 hover:border-brand-gold/30 transition-all duration-300">
+          <img src="/static/images/img-working-2.jpg" alt="Proyecto 4"
+            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div
+            class="project-overlay absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent opacity-90 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
+            <span class="text-brand-gold text-xs font-bold uppercase tracking-wider mb-1">Instagram Reels</span>
+            <h3 class="text-lg font-bold text-white mb-2">
+              Storytelling Visual
+            </h3>
+            <p class="text-gray-300 text-sm mb-3 line-clamp-2">
+              Narrativa emocional para marca de lifestyle y moda.
+            </p>
+            <button
+              class="text-white text-xs font-bold border-b border-brand-gold w-max pb-1 hover:text-brand-gold transition-colors">
+              Ver Proyecto
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Sobre Mí -->
+  <section class="py-24 bg-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row items-center gap-12">
+        <div class="lg:w-1/2 relative fade-in-section">
+          <div class="relative rounded-2xl overflow-hidden border-2 border-brand-gray">
+            <img src="/static/images/sergio-productor.enc" alt="Sergio Editor"
+              class="w-full h-auto grayscale hover:grayscale-0 transition-all duration-500" />
+          </div>
+          <!-- Decorative element -->
+          <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-gold/10 rounded-full blur-2xl z-0"></div>
+        </div>
+        <div class="lg:w-1/2 fade-in-section">
+          <h4 class="text-brand-gold font-bold uppercase tracking-wider text-sm mb-2">
+            Sobre mí
+          </h4>
+          <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-6">
+            Más que un editor, <br />tu aliado creativo.
+          </h2>
+          <p class="text-gray-300 mb-6 leading-relaxed">
+            Soy Sergio, editor y productor audiovisual. No solo corto videos,
+            creo narrativas. Trabajo cada proyecto de forma personalizada para
+            lograr un resultado único que resuene con tu audiencia.
+          </p>
+          <p class="text-gray-300 mb-8 leading-relaxed">
+            Mi enfoque combina planificación precisa, narrativa clara y una
+            supervisión detallada de cada etapa. Me diferencio por la
+            <strong class="text-white">calidad cinematográfica</strong> y la
+            <strong class="text-white">atención al detalle</strong> en el
+            color y el sonido.
+          </p>
+
+          <!-- Stats / Details -->
+          <div class="grid grid-cols-2 gap-6 border-t border-white/10 pt-8">
+            <div>
+              <span class="block text-3xl font-bold text-white">6+</span>
+              <span class="text-sm text-gray-400">Años de experiencia</span>
+            </div>
+            <div>
+              <span class="block text-3xl font-bold text-white">20+</span>
+              <span class="text-sm text-gray-400">Proyectos exitosos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Proceso de Trabajo -->
+  <section id="proceso" class="py-24 bg-gradient-to-b from-brand-gray via-brand-dark to-brand-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16 fade-in-section">
+        <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-4">
+          ¿Cómo trabajamos?
+        </h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">
+          Un flujo de trabajo diseñado para garantizar calidad y cumplimiento
+          de tiempos.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4 relative">
+        <!-- Linea conectora (Solo desktop) -->
+        <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-white/10 z-0"></div>
+
+        <!-- Paso 1 -->
+        <div class="relative z-10 flex flex-col items-center text-center fade-in-section group">
+          <div
+            class="w-24 h-24 bg-brand-dark border border-brand-gold/30 rounded-full flex items-center justify-center mb-6 group-hover:border-brand-gold group-hover:bg-brand-gold transition-all duration-300">
+            <i class="fas fa-comments text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">1. Briefing</h3>
+          <p class="text-xs text-gray-400 px-2">
+            Reunión inicial para entender tus objetivos y necesidades.
+          </p>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="relative z-10 flex flex-col items-center text-center fade-in-section group"
+          style="animation-delay: 100ms">
+          <div
+            class="w-24 h-24 bg-brand-dark border border-brand-gold/30 rounded-full flex items-center justify-center mb-6 group-hover:border-brand-gold group-hover:bg-brand-gold transition-all duration-300">
+            <i class="fas fa-lightbulb text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">2. Propuesta</h3>
+          <p class="text-xs text-gray-400 px-2">
+            Presupuesto y concepto creativo a medida.
+          </p>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="relative z-10 flex flex-col items-center text-center fade-in-section group"
+          style="animation-delay: 200ms">
+          <div
+            class="w-24 h-24 bg-brand-dark border border-brand-gold/30 rounded-full flex items-center justify-center mb-6 group-hover:border-brand-gold group-hover:bg-brand-gold transition-all duration-300">
+            <i class="fas fa-video text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">3. Producción</h3>
+          <p class="text-xs text-gray-400 px-2">
+            Rodaje y/o edición con enfoque profesional.
+          </p>
+        </div>
+
+        <!-- Paso 4 -->
+        <div class="relative z-10 flex flex-col items-center text-center fade-in-section group"
+          style="animation-delay: 300ms">
+          <div
+            class="w-24 h-24 bg-brand-dark border border-brand-gold/30 rounded-full flex items-center justify-center mb-6 group-hover:border-brand-gold group-hover:bg-brand-gold transition-all duration-300">
+            <i class="fas fa-tasks text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">4. Revisión</h3>
+          <p class="text-xs text-gray-400 px-2">
+            Feedback y ajustes para pulir los detalles.
+          </p>
+        </div>
+
+        <!-- Paso 5 -->
+        <div class="relative z-10 flex flex-col items-center text-center fade-in-section group"
+          style="animation-delay: 400ms">
+          <div
+            class="w-24 h-24 bg-brand-dark border border-brand-gold/30 rounded-full flex items-center justify-center mb-6 group-hover:border-brand-gold group-hover:bg-brand-gold transition-all duration-300">
+            <i class="fas fa-paper-plane text-2xl text-white group-hover:text-brand-dark"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2">5. Entrega</h3>
+          <p class="text-xs text-gray-400 px-2">
+            Archivos finales en todos los formatos optimizados.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Testimonios -->
+  <section class="py-32 bg-brand-dark relative overflow-hidden">
+    <!-- Elemento decorativo de fondo -->
+    <div
+      class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-gold/5 rounded-full blur-3xl">
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-12 fade-in-section">
+        <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-3">
+          Lo que dicen mis clientes
+        </h2>
+        <div class="w-16 h-1 bg-brand-gold mx-auto rounded-full"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Testimonio 1 -->
+        <div class="relative group fade-in-section">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-brand-gold/20 to-transparent rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+          <div
+            class="relative bg-brand-gray/40 backdrop-blur-sm p-6 rounded-xl border border-white/5 hover:border-brand-gold/30 transition-all duration-300 h-full flex flex-col">
+            <!-- Comillas decorativas -->
+            <div class="mb-4">
+              <i class="fas fa-quote-left text-2xl text-brand-gold/40"></i>
+            </div>
+
+            <!-- Contenido del testimonio -->
+            <p class="text-gray-300 leading-relaxed mb-4 flex-grow text-sm">
+              El spot que creó Sergio superó nuestras expectativas. Entendió
+              la identidad de nuestra marca al instante.
+            </p>
+
+            <!-- Rating de estrellas -->
+            <div class="flex gap-1 mb-4">
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+            </div>
+
+            <!-- Info del cliente -->
+            <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 rounded-full flex items-center justify-center font-heading font-bold text-white text-sm ring-2 ring-brand-gold/20">
+                M
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-sm">Martín Gómez</h4>
+                <p class="text-gray-400 text-xs">CEO, TechStart</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonio 2 -->
+        <div class="relative group fade-in-section">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-brand-gold/20 to-transparent rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+          <div
+            class="relative bg-brand-gray/40 backdrop-blur-sm p-6 rounded-xl border border-white/5 hover:border-brand-gold/30 transition-all duration-300 h-full flex flex-col">
+            <!-- Comillas decorativas -->
+            <div class="mb-4">
+              <i class="fas fa-quote-left text-2xl text-brand-gold/40"></i>
+            </div>
+
+            <!-- Contenido del testimonio -->
+            <p class="text-gray-300 leading-relaxed mb-4 flex-grow text-sm">
+              Profesionalismo puro. Cumplió con los plazos ajustados y la
+              corrección de color fue impecable.
+            </p>
+
+            <!-- Rating de estrellas -->
+            <div class="flex gap-1 mb-4">
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+            </div>
+
+            <!-- Info del cliente -->
+            <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 rounded-full flex items-center justify-center font-heading font-bold text-white text-sm ring-2 ring-brand-gold/20">
+                L
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-sm">Lucía Fernández</h4>
+                <p class="text-gray-400 text-xs">Marketing, ModaVogue</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonio 3 -->
+        <div class="relative group fade-in-section">
+          <div
+            class="absolute inset-0 bg-gradient-to-br from-brand-gold/20 to-transparent rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+          </div>
+          <div
+            class="relative bg-brand-gray/40 backdrop-blur-sm p-6 rounded-xl border border-white/5 hover:border-brand-gold/30 transition-all duration-300 h-full flex flex-col">
+            <!-- Comillas decorativas -->
+            <div class="mb-4">
+              <i class="fas fa-quote-left text-2xl text-brand-gold/40"></i>
+            </div>
+
+            <!-- Contenido del testimonio -->
+            <p class="text-gray-300 leading-relaxed mb-4 flex-grow text-sm">
+              Gracias a los videos para redes hemos duplicado el engagement.
+              Recomendado al 100%.
+            </p>
+
+            <!-- Rating de estrellas -->
+            <div class="flex gap-1 mb-4">
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+              <i class="fas fa-star text-brand-gold text-xs"></i>
+            </div>
+
+            <!-- Info del cliente -->
+            <div class="flex items-center gap-3 pt-4 border-t border-white/10">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-brand-gold/30 to-brand-gold/10 rounded-full flex items-center justify-center font-heading font-bold text-white text-sm ring-2 ring-brand-gold/20">
+                P
+              </div>
+              <div>
+                <h4 class="text-white font-bold text-sm">Pablo Ruiz</h4>
+                <p class="text-gray-400 text-xs">Influencer Fitness</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. Precios / CTA -->
+  <section class="py-20 bg-brand-gray border-y border-white/5">
+    <div class="max-w-4xl mx-auto px-4 text-center fade-in-section">
+      <h2 class="font-heading text-3xl font-bold text-white mb-6">
+        Planes Flexibles
+      </h2>
+      <div class="grid md:grid-cols-2 gap-8 text-left">
+        <div class="bg-brand-dark p-8 rounded-2xl border border-white/10">
+          <h3 class="text-xl font-bold text-brand-gold mb-2">
+            Paquetes Mensuales
+          </h3>
+          <p class="text-gray-400 mb-4 text-sm">
+            Ideal para marcas que necesitan contenido constante en redes
+            sociales.
+          </p>
+          <ul class="text-gray-300 text-sm space-y-2 mb-6">
+            <li>
+              <i class="fas fa-check text-brand-gold mr-2"></i> 4 a 8
+              Reels/TikToks
+            </li>
+            <li>
+              <i class="fas fa-check text-brand-gold mr-2"></i> Edición
+              dinámica
+            </li>
+            <li>
+              <i class="fas fa-check text-brand-gold mr-2"></i> Entrega
+              quincenal
+            </li>
+          </ul>
+          <a href="#contacto"
+            class="block w-full py-2 text-center border border-white text-white rounded hover:bg-white hover:text-black transition-colors">Consultar
+            precio</a>
+        </div>
+        <div class="bg-brand-dark p-8 rounded-2xl border border-brand-gold/40 relative overflow-hidden">
+          <div class="absolute top-0 right-0 bg-brand-gold text-brand-dark text-xs font-bold px-3 py-1">
+            Premium
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">
+            Proyectos a Medida
+          </h3>
+          <p class="text-gray-400 mb-4 text-sm">
+            Spots de TV, documentales o producciones complejas.
+          </p>
+          <p class="text-gray-300 italic mb-6 text-sm">
+            "Cada proyecto es único. Solicita una cotización personalizada
+            basada en tus necesidades."
+          </p>
+          <a href="#contacto"
+            class="block w-full py-2 text-center bg-brand-gold text-brand-dark font-bold rounded hover:bg-white transition-colors">Solicitar
+            Cotización</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. Contacto -->
+  <section id="contacto" class="py-24 bg-brand-gray relative overflow-hidden">
+    <!-- Background element -->
+    <div class="absolute -left-20 top-20 w-96 h-96 bg-brand-gold/5 rounded-full blur-3xl"></div>
+
+    <div class="max-w-4xl mx-auto px-4 relative z-10">
+      <div class="text-center mb-12 fade-in-section">
+        <h2 class="font-heading text-4xl font-bold text-white mb-4">
+          Empecemos tu proyecto
+        </h2>
+        <p class="text-gray-400">
+          Cuéntame tu idea y te responderé en menos de 24 horas.
+        </p>
+      </div>
+
+      <div class="glass-card p-8 md:p-12 rounded-2xl shadow-2xl fade-in-section">
+        <form class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-400 mb-2">Nombre <span
+                  class="text-brand-gold">*</span></label>
+              <input type="text" required
+                class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
+                placeholder="Tu nombre" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-400 mb-2">Email <span
+                  class="text-brand-gold">*</span></label>
+              <input type="email" required
+                class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
+                placeholder="tu@email.com" />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-gray-400 mb-2">Teléfono
+                <span class="text-gray-500 text-xs">(opcional)</span></label>
+              <div class="phone-input-container">
+                <select class="country-select">
+                  <option value="+591" selected>🇧🇴 +591</option>
+                  <option value="+54">🇦🇷 +54</option>
+                  <option value="+55">🇧🇷 +55</option>
+                  <option value="+56">🇨🇱 +56</option>
+                  <option value="+57">🇨🇴 +57</option>
+                  <option value="+593">🇪🇨 +593</option>
+                  <option value="+34">🇪🇸 +34</option>
+                  <option value="+1">🇺🇸 +1</option>
+                  <option value="+52">🇲🇽 +52</option>
+                  <option value="+51">🇵🇪 +51</option>
+                  <option value="+595">🇵🇾 +595</option>
+                  <option value="+598">🇺🇾 +598</option>
+                  <option value="+58">🇻🇪 +58</option>
+                </select>
+                <input type="tel" class="phone-input" placeholder="123 456 789" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-400 mb-2">Tipo de Proyecto</label>
+              <select
+                class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors appearance-none">
+                <option>Selecciona una opción</option>
+                <option>Spot Publicitario</option>
+                <option>Video Corporativo</option>
+                <option>Contenido Redes Sociales</option>
+                <option>Edición de Video</option>
+                <option>Otro</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-400 mb-2">Mensaje</label>
+            <textarea rows="4"
+              class="w-full bg-brand-dark/50 border border-white/10 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brand-gold transition-colors"
+              placeholder="Cuéntame un poco más sobre lo que necesitas..."></textarea>
+          </div>
+          <button type="submit"
+            class="w-full bg-brand-gold text-brand-dark font-bold py-4 rounded-lg hover:bg-white hover:shadow-lg transition-all transform hover:-translate-y-1">
+            Enviar Mensaje
+          </button>
+        </form>
+      </div>
+
+      <div class="mt-12 flex flex-col md:flex-row justify-center items-center gap-8 text-gray-400">
+        <a href="#" class="flex items-center gap-2 hover:text-brand-gold transition-colors"><i
+            class="fab fa-whatsapp text-xl"></i> +123 456 7890</a>
+        <a href="#" class="flex items-center gap-2 hover:text-brand-gold transition-colors"><i
+            class="far fa-envelope text-xl"></i> hola@sergiostudio.com</a>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-brand-gold transition-colors"><i class="fab fa-instagram text-xl"></i></a>
+          <a href="#" class="hover:text-brand-gold transition-colors"><i class="fab fa-tiktok text-xl"></i></a>
+          <a href="#" class="hover:text-brand-gold transition-colors"><i class="fab fa-vimeo text-xl"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. Footer -->
+  <footer class="bg-black text-gray-500 py-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <a href="#" class="font-heading font-bold text-xl text-white">SERGIO<span
+            class="text-brand-gold">.STUDIO</span></a>
+        <p class="text-xs mt-2">
+          © 2025 Sergio Producciones. Todos los derechos reservados.
+        </p>
+      </div>
+      <div class="flex gap-6 text-sm">
+        <a href="#servicios" class="hover:text-white transition-colors">Servicios</a>
+        <a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a>
+        <a href="#contacto" class="hover:text-white transition-colors">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts simples de interacción -->
+  <script>
+    // 1. Mobile Menu Toggle
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+
+    // 2. Intersection Observer for Fade-in animations
+    const observerOptions = {
+      root: null,
+      rootMargin: "0px",
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target); // Only animate once
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll(".fade-in-section").forEach((section) => {
+      observer.observe(section);
+    });
+
+    // 3. Portfolio Auto-Carousel with Video Control
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+    let currentActiveIndex = 0;
+    let autoCarouselInterval = null;
+    let isUserHovering = false;
+
+    // Función para activar una card específica
+    function activateCard(index) {
+      // Desactivar todas las cards
+      portfolioCards.forEach((card, i) => {
+        const overlay = card.querySelector('.project-overlay');
+        const cardVideo = card.querySelector('video'); // Buscar video en esta card
+
+        if (i === index) {
+          // Activar la card actual
+          overlay.classList.remove('md:opacity-0');
+          overlay.classList.add('opacity-100');
+          // Cambiar el borde a dorado
+          card.classList.remove('border-white/5');
+          card.classList.add('border-brand-gold');
+
+          // Si esta card tiene video, reproducirlo
+          if (cardVideo) {
+            cardVideo.currentTime = 0; // Reiniciar al inicio
+            cardVideo.play().catch(e => console.log('Error playing video:', e));
+          }
+        } else {
+          // Desactivar las demás
+          overlay.classList.add('md:opacity-0');
+          overlay.classList.remove('opacity-100');
+          // Restaurar el borde blanco sutil
+          card.classList.remove('border-brand-gold');
+          card.classList.add('border-white/5');
+
+          // Pausar el video si tiene uno
+          if (cardVideo) {
+            cardVideo.pause();
+          }
+        }
+      });
+
+      currentActiveIndex = index;
+
+      // Programar el siguiente cambio basado en la duración
+      scheduleNextTransition();
+    }
+
+    // Programar la siguiente transición basándose en la duración del contenido
+    function scheduleNextTransition() {
+      stopAutoCarousel();
+
+      let duration;
+
+      // Obtener la card actual y buscar si tiene video
+      const currentCard = portfolioCards[currentActiveIndex];
+      const currentVideo = currentCard ? currentCard.querySelector('video') : null;
+
+      // Si la card actual tiene video, usar su duración
+      if (currentVideo && currentVideo.duration) {
+        duration = currentVideo.duration * 1000; // Convertir a milisegundos
+      } else {
+        // Para cards sin video (imágenes), usar 5 segundos
+        duration = 5000;
+      }
+
+      // Programar el siguiente cambio
+      autoCarouselInterval = setTimeout(() => {
+        if (!isUserHovering) {
+          const nextIndex = (currentActiveIndex + 1) % portfolioCards.length;
+          activateCard(nextIndex);
+        }
+      }, duration);
+    }
+
+    // Función para avanzar al siguiente proyecto (para uso manual)
+    function nextProject() {
+      if (!isUserHovering) {
+        const nextIndex = (currentActiveIndex + 1) % portfolioCards.length;
+        activateCard(nextIndex);
+      }
+    }
+
+    // Iniciar auto-carousel
+    function startAutoCarousel() {
+      // Activar la primera card y programar transiciones
+      activateCard(0);
+    }
+
+    // Detener auto-carousel
+    function stopAutoCarousel() {
+      if (autoCarouselInterval) {
+        clearTimeout(autoCarouselInterval);
+        autoCarouselInterval = null;
+      }
+    }
+
+    // Event listeners para hover manual
+    portfolioCards.forEach((card, index) => {
+      card.addEventListener('mouseenter', () => {
+        isUserHovering = true;
+        stopAutoCarousel();
+        activateCard(index);
+      });
+
+      card.addEventListener('mouseleave', () => {
+        isUserHovering = false;
+        // Reiniciar auto-carousel después de 1 segundo de inactividad
+        setTimeout(() => {
+          if (!isUserHovering) {
+            // Continuar desde la card actual
+            scheduleNextTransition();
+          }
+        }, 1000);
+      });
+    });
+
+    // Intersection Observer para el portfolio - iniciar carousel cuando sea visible
+    const portfolioSection = document.getElementById('portfolio');
+    const portfolioObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Activar la primera card y empezar el carousel
+          activateCard(0);
+          startAutoCarousel();
+        } else {
+          // Detener cuando no sea visible
+          stopAutoCarousel();
+          // Pausar todos los videos
+          portfolioCards.forEach(card => {
+            const cardVideo = card.querySelector('video');
+            if (cardVideo) {
+              cardVideo.pause();
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    if (portfolioSection) {
+      portfolioObserver.observe(portfolioSection);
+    }
+  </script>
+</body>
+
+</html>
